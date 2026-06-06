@@ -1,6 +1,7 @@
 {
   "name": "finflow-frontend",
   "private": true,
+  "author": "Jagdish Mehra",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
