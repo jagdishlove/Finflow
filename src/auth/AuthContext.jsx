@@ -1,31 +1,78 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { supabase } from "../supabase/client";
 
-const AuthContext = createContext(null)
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (username, password) => {
-    if (username === 'user' && password === 'user') {
-      setIsAuthenticated(true)
-      return { success: true }
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      },
+    );
+
+    // Fetch initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const login = async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      return { success: false, message: error.message };
     }
-    return { success: false, message: 'Invalid demo credentials.' }
-  }
+    return { success: true };
+  };
 
-  const logout = () => setIsAuthenticated(false)
+  const signUp = async (email, password) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) {
+      return { success: false, message: error.message };
+    }
+    return { success: true };
+  };
 
-  const value = useMemo(() => ({
-    isAuthenticated,
-    login,
-    logout,
-  }), [isAuthenticated])
+  const logout = async () => {
+    await supabase.auth.signOut();
+  };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
+  const value = useMemo(
+    () => ({
+      session,
+      user,
+      isAuthenticated: !!session,
+      loading,
+      login,
+      signUp,
+      logout,
+    }),
+    [session, user, loading],
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used inside AuthProvider')
-  return context
-}
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used inside AuthProvider");
+  return context;
+};

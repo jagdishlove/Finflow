@@ -40,7 +40,7 @@ const LandingPage = () => {
           <button className="ghost-button-dark" onClick={() => navigate('/login')}>
             Login
           </button>
-          <button className="cta-button-v3" onClick={() => navigate('/login')}>
+          <button className="cta-button-v3" onClick={() => navigate('/signup')}>
             Sign up
           </button>
         </div>

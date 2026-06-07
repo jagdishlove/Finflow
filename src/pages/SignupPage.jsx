@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-const LoginPage = () => {
+const SignupPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { signUp, session } = useAuth();
+
+  console.log("Current session:", session); // Debugging line to check session state
 
   const [form, setForm] = useState({
     username: "",
@@ -19,16 +21,16 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    const result = await login(form.username, form.password);
+    const result = signUp(form.username, form.password);
 
     if (result.success) {
       navigate("/app");
     } else {
-      setError(result.message || "Login failed.");
+      setError(result.message || "Sign up failed.");
     }
   };
 
@@ -44,7 +46,7 @@ const LoginPage = () => {
           <span className="pill-v3">DEMO ACCESS</span>
           <h1>Access the FinFlow workspace.</h1>
           <p>
-            Sign in to explore the premium demo environment and review the
+            Sign up to explore the premium demo environment and review the
             product flow, dashboard structure, budgets, reports, and financial
             operations experience.
           </p>
@@ -59,19 +61,18 @@ const LoginPage = () => {
 
       <div className="login-v2-right">
         <div className="login-v2-card">
-          <h2>Sign in</h2>
-          <p>Use the demo credentials below to enter the product.</p>
+          <h2>Sign up</h2>
+          <p>Create an account to explore the premium demo environment.</p>
 
           <form className="auth-form-v2" onSubmit={handleSubmit}>
             <label className="form-field-v2">
-              <span>Username</span>
+              <span>Email</span>
               <input
-                type="text"
+                type="email"
                 name="username"
                 value={form.username}
                 onChange={handleChange}
                 required
-                placeholder="Enter username or Email"
               />
             </label>
 
@@ -83,12 +84,11 @@ const LoginPage = () => {
                 value={form.password}
                 onChange={handleChange}
                 required
-                placeholder="Enter password"
               />
             </label>
 
             <button className="cta-button-v3 login-button-v2" type="submit">
-              Enter demo
+              Sign up
             </button>
           </form>
 
@@ -115,4 +115,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
