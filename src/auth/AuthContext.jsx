@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log("AuthProvider session:", !!session); // Debugging line to check session state
+
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {

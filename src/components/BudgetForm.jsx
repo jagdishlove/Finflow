@@ -1,65 +1,76 @@
-import { useEffect, useState } from 'react'
-import { getCategories, createBudget } from '../services/api'
+import { useEffect, useState } from "react";
+import { getCategories, createBudget } from "../services/api";
+import { supabase } from "../supabase/client";
 
 const BudgetForm = ({ onCreated }) => {
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
-    category_id: '',
-    monthly_limit: '',
-  })
-  const [loading, setLoading] = useState(false)
-  const [fetching, setFetching] = useState(true)
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+    category_id: "",
+    monthly_limit: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        setFetching(true)
-        const data = await getCategories()
-        setCategories(data.filter((cat) => cat.type === 'expense'))
+        setFetching(true);
+        const data = await getCategories();
+        setCategories(data.filter((cat) => cat.type === "expense"));
       } catch {
-        setError('Failed to load categories.')
+        setError("Failed to load categories.");
       } finally {
-        setFetching(false)
+        setFetching(false);
       }
-    }
+    };
 
-    loadCategories()
-  }, [])
+    loadCategories();
+  }, []);
 
   const handleChange = (e) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    setMessage('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setMessage("");
 
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      const currentMonth = new Date();
+      currentMonth.setDate(1); // Set to the first day of the month
+
       await createBudget({
-        category_id: Number(form.category_id),
+        category_id: form.category_id,
         monthly_limit: form.monthly_limit,
-      })
+        user_id: user.id,
+        month: currentMonth.toISOString().split("T")[0], // YYYY-MM-DD
+      });
 
-      setMessage('Budget created successfully.')
+      setMessage("Budget created successfully.");
       setForm({
-        category_id: '',
-        monthly_limit: '',
-      })
+        category_id: "",
+        monthly_limit: "",
+      });
 
-      if (onCreated) onCreated()
+      if (onCreated) onCreated();
     } catch {
-      setError('Failed to create budget.')
+      setError("Failed to create budget.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="card">
@@ -71,7 +82,12 @@ const BudgetForm = ({ onCreated }) => {
         <form className="form-grid" onSubmit={handleSubmit}>
           <label className="form-field">
             <span>Expense Category</span>
-            <select name="category_id" value={form.category_id} onChange={handleChange} required>
+            <select
+              name="category_id"
+              value={form.category_id}
+              onChange={handleChange}
+              required
+            >
               <option value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -96,7 +112,7 @@ const BudgetForm = ({ onCreated }) => {
           </label>
 
           <button className="primary-button" type="submit" disabled={loading}>
-            {loading ? 'Saving...' : 'Create budget'}
+            {loading ? "Saving..." : "Create budget"}
           </button>
         </form>
       )}
@@ -104,7 +120,7 @@ const BudgetForm = ({ onCreated }) => {
       {message ? <p className="success-text">{message}</p> : null}
       {error ? <p className="error-text">{error}</p> : null}
     </div>
-  )
-}
+  );
+};
 
-export default BudgetForm
+export default BudgetForm;

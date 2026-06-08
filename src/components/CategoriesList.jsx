@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react'
-import { getCategories } from '../services/api'
+import { useEffect, useState } from "react";
+import { getCategories } from "../services/api";
 
 const CategoriesList = ({ refreshKey = 0 }) => {
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        setLoading(true)
-        const data = await getCategories()
-        setCategories(data)
-        setError(null)
+        setLoading(true);
+        const data = await getCategories();
+        setCategories(data);
+        setError(null);
       } catch {
-        setError('Failed to load categories.')
+        setError("Failed to load categories.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchCategories()
-  }, [refreshKey])
+    fetchCategories();
+  }, [refreshKey]);
 
-  if (loading) return <div className="card">Loading categories...</div>
-  if (error) return <div className="card error-text">{error}</div>
+  if (loading) return <div className="card">Loading categories...</div>;
+  if (error) return <div className="card error-text">{error}</div>;
 
   return (
     <div className="card">
@@ -38,9 +38,13 @@ const CategoriesList = ({ refreshKey = 0 }) => {
             <li key={cat.id} className="transaction-item">
               <div>
                 <strong>{cat.name}</strong>
-                <div className="muted-text">Category ID: {cat.id}</div>
+                {/* <div className="muted-text">Category ID: {cat.id}</div> */}
               </div>
-              <span className={cat.type === 'income' ? 'budget-normal' : 'budget-over'}>
+              <span
+                className={
+                  cat.type === "income" ? "budget-normal" : "budget-over"
+                }
+              >
                 {cat.type}
               </span>
             </li>
@@ -48,7 +52,7 @@ const CategoriesList = ({ refreshKey = 0 }) => {
         </ul>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CategoriesList
+export default CategoriesList;

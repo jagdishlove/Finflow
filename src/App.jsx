@@ -13,6 +13,7 @@ import ReportsPage from "./pages/ReportsPage";
 import SettingsPage from "./pages/SettingsPage";
 import "./index.css";
 import SignupPage from "./pages/SignupPage";
+import LoadingBar from "./components/LoadingBar";
 
 const AppLayout = () => {
   return (
@@ -37,7 +38,8 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <AuthProvider>
+    <>
+      <LoadingBar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -54,7 +56,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
+    </>
   );
 }
 

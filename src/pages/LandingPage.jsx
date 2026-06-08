@@ -1,31 +1,31 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const faqs = [
   {
-    q: 'What is FinFlow?',
-    a: 'FinFlow is a premium financial operations demo platform for small businesses, built to showcase budget control, reporting, and transaction workflows.',
+    q: "What is FinFlow?",
+    a: "FinFlow is a premium financial operations demo platform for small businesses, built to showcase budget control, reporting, and transaction workflows.",
   },
   {
-    q: 'Does the platform already work?',
-    a: 'Yes. The current demo includes working dashboards, categories, budgets, transactions, reports, and a protected product workspace.',
+    q: "Does the platform already work?",
+    a: "Yes. The current demo includes working dashboards, categories, budgets, transactions, reports, and a protected product workspace.",
   },
   {
-    q: 'What can be added next?',
-    a: 'Future expansion can include invoice workflows, exports, summaries, forecasting, integrations, and external system connections.',
+    q: "What can be added next?",
+    a: "Future expansion can include invoice workflows, exports, summaries, forecasting, integrations, and external system connections.",
   },
   {
-    q: 'Who is it for?',
-    a: 'The product is positioned for modern small businesses that need cleaner operational visibility across finance workflows.',
+    q: "Who is it for?",
+    a: "The product is positioned for modern small businesses that need cleaner operational visibility across finance workflows.",
   },
-]
+];
 
 const LandingPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="landing-v3">
       <header className="public-navbar-v3">
-        <div className="public-brand-v3">
+        <div onClick={() => navigate("/")} className="public-brand-v3">
           <div className="public-brand-mark-v3">F</div>
           <span>FinFlow</span>
         </div>
@@ -37,10 +37,13 @@ const LandingPage = () => {
         </nav>
 
         <div className="public-nav-actions-v3">
-          <button className="ghost-button-dark" onClick={() => navigate('/login')}>
+          <button
+            className="ghost-button-dark"
+            onClick={() => navigate("/login")}
+          >
             Login
           </button>
-          <button className="cta-button-v3" onClick={() => navigate('/signup')}>
+          <button className="cta-button-v3" onClick={() => navigate("/signup")}>
             Sign up
           </button>
         </div>
@@ -55,15 +58,22 @@ const LandingPage = () => {
           </h1>
 
           <p className="hero-subtitle-v3">
-            FinFlow helps teams control budgets, manage transactions, review performance,
-            and build more structured financial workflows from a single product experience.
+            FinFlow helps teams control budgets, manage transactions, review
+            performance, and build more structured financial workflows from a
+            single product experience.
           </p>
 
           <div className="hero-actions-v3">
-            <button className="cta-button-v3 large" onClick={() => navigate('/login')}>
+            <button
+              className="cta-button-v3 large"
+              onClick={() => navigate("/login")}
+            >
               Book a Demo
             </button>
-            <button className="ghost-button-v3 large" onClick={() => navigate('/login')}>
+            <button
+              className="ghost-button-v3 large"
+              onClick={() => navigate("/login")}
+            >
               Explore Platform
             </button>
           </div>
@@ -113,7 +123,10 @@ const LandingPage = () => {
                 <strong>$1,200 / $1,300</strong>
               </div>
               <div className="progress-track-v3">
-                <div className="progress-fill-v3 warning" style={{ width: '92%' }}></div>
+                <div
+                  className="progress-fill-v3 warning"
+                  style={{ width: "92%" }}
+                ></div>
               </div>
             </div>
 
@@ -126,7 +139,10 @@ const LandingPage = () => {
                 <strong>$320 / $500</strong>
               </div>
               <div className="progress-track-v3">
-                <div className="progress-fill-v3 normal" style={{ width: '64%' }}></div>
+                <div
+                  className="progress-fill-v3 normal"
+                  style={{ width: "64%" }}
+                ></div>
               </div>
             </div>
 
@@ -172,7 +188,9 @@ const LandingPage = () => {
             <span className="feature-tag-v3">REPORTING</span>
             <h3>Review reports and financial movement with clarity.</h3>
             <div className="panel-box-v3 white">
-              <p>Payments, summaries, and analytics become easier to understand.</p>
+              <p>
+                Payments, summaries, and analytics become easier to understand.
+              </p>
             </div>
           </div>
         </div>
@@ -185,11 +203,15 @@ const LandingPage = () => {
         </div>
         <div className="value-card-v3">
           <span>Decision support</span>
-          <strong>Built for financial visibility and operational clarity.</strong>
+          <strong>
+            Built for financial visibility and operational clarity.
+          </strong>
         </div>
         <div className="value-card-v3">
           <span>Expansion-ready</span>
-          <strong>Ready to evolve into exports, invoices, summaries, and forecasting.</strong>
+          <strong>
+            Ready to evolve into exports, invoices, summaries, and forecasting.
+          </strong>
         </div>
       </section>
 
@@ -206,8 +228,8 @@ const LandingPage = () => {
             Comprehensive Financial <span>Analytics</span>
           </h2>
           <p>
-            Revolutionize decision-making with structured dashboards, category visibility,
-            reporting workflows, and premium product design.
+            Revolutionize decision-making with structured dashboards, category
+            visibility, reporting workflows, and premium product design.
           </p>
 
           <div className="check-grid-v3">
@@ -223,19 +245,28 @@ const LandingPage = () => {
         <div className="feature-card-mini-v3">
           <span className="feature-card-label-v3">Automation potential</span>
           <h3>Weekly summaries</h3>
-          <p>Build toward scheduled business updates and recurring financial snapshots.</p>
+          <p>
+            Build toward scheduled business updates and recurring financial
+            snapshots.
+          </p>
         </div>
 
         <div className="feature-card-mini-v3">
           <span className="feature-card-label-v3">Resources</span>
           <h3>Invoice exports</h3>
-          <p>Prepare the product for downloadable reports, export pipelines, and invoice workflows.</p>
+          <p>
+            Prepare the product for downloadable reports, export pipelines, and
+            invoice workflows.
+          </p>
         </div>
 
         <div className="feature-card-mini-v3">
           <span className="feature-card-label-v3">Growth layer</span>
           <h3>Forecasting</h3>
-          <p>Extend FinFlow into projections, scenario planning, and financial insight generation.</p>
+          <p>
+            Extend FinFlow into projections, scenario planning, and financial
+            insight generation.
+          </p>
         </div>
       </section>
 
@@ -245,15 +276,22 @@ const LandingPage = () => {
             <span className="pill-v3">DEMO PRODUCT</span>
             <h2>Explore the workspace and product flow.</h2>
             <p>
-              FinFlow is designed as a premium demo that already feels like a real financial product.
+              FinFlow is designed as a premium demo that already feels like a
+              real financial product.
             </p>
           </div>
 
           <div className="hero-actions-v3">
-            <button className="cta-button-v3 large" onClick={() => navigate('/login')}>
+            <button
+              className="cta-button-v3 large"
+              onClick={() => navigate("/login")}
+            >
               Launch Demo
             </button>
-            <button className="ghost-button-v3 large" onClick={() => navigate('/login')}>
+            <button
+              className="ghost-button-v3 large"
+              onClick={() => navigate("/login")}
+            >
               View Product
             </button>
           </div>
@@ -280,7 +318,9 @@ const LandingPage = () => {
           <div className="public-brand-mark-v3">F</div>
           <div>
             <strong>FinFlow</strong>
-            <p>Premium financial operations demo for modern small businesses.</p>
+            <p>
+              Premium financial operations demo for modern small businesses.
+            </p>
           </div>
         </div>
 
@@ -306,7 +346,7 @@ const LandingPage = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

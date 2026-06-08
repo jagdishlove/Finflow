@@ -1,70 +1,80 @@
-import { useEffect, useState } from 'react'
-import { getCategories, createTransaction } from '../services/api'
+import { useEffect, useState } from "react";
+import { getCategories, createTransaction } from "../services/api";
+import { supabase } from "../supabase/client";
 
 const TransactionForm = ({ onCreated }) => {
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
-    category_id: '',
-    description: '',
-    amount: '',
+    category_id: "",
+    description: "",
+    amount: "",
     transaction_date: new Date().toISOString().slice(0, 10),
-  })
-  const [loading, setLoading] = useState(false)
-  const [fetching, setFetching] = useState(true)
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+  });
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        setFetching(true)
-        const data = await getCategories()
-        setCategories(data)
+        setFetching(true);
+        const data = await getCategories();
+        setCategories(data);
       } catch {
-        setError('Failed to load categories.')
+        setError("Failed to load categories.");
       } finally {
-        setFetching(false)
+        setFetching(false);
       }
-    }
+    };
 
-    loadCategories()
-  }, [])
+    loadCategories();
+  }, []);
 
   const handleChange = (e) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    setMessage('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setMessage("");
 
     try {
-      await createTransaction({
-        category_id: Number(form.category_id),
-        description: form.description,
-        amount: form.amount,
-        transaction_date: form.transaction_date,
-      })
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
 
-      setMessage('Transaction created successfully.')
+      const selectedCategory = categories.find(
+        (cat) => cat.id === form.category_id,
+      );
+      if (!selectedCategory) throw new Error("Category not found");
+
+      await createTransaction({
+        ...form,
+        user_id: user.id,
+        type: selectedCategory.type,
+      });
+
+      setMessage("Transaction created successfully.");
       setForm((prev) => ({
         ...prev,
-        description: '',
-        amount: '',
-      }))
+        description: "",
+        amount: "",
+      }));
 
-      if (onCreated) onCreated()
+      if (onCreated) onCreated();
     } catch {
-      setError('Failed to create transaction.')
+      setError("Failed to create transaction.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="card">
@@ -76,7 +86,12 @@ const TransactionForm = ({ onCreated }) => {
         <form className="form-grid" onSubmit={handleSubmit}>
           <label className="form-field">
             <span>Category</span>
-            <select name="category_id" value={form.category_id} onChange={handleChange} required>
+            <select
+              name="category_id"
+              value={form.category_id}
+              onChange={handleChange}
+              required
+            >
               <option value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -124,7 +139,7 @@ const TransactionForm = ({ onCreated }) => {
           </label>
 
           <button className="primary-button" type="submit" disabled={loading}>
-            {loading ? 'Saving...' : 'Create transaction'}
+            {loading ? "Saving..." : "Create transaction"}
           </button>
         </form>
       )}
@@ -132,7 +147,7 @@ const TransactionForm = ({ onCreated }) => {
       {message ? <p className="success-text">{message}</p> : null}
       {error ? <p className="error-text">{error}</p> : null}
     </div>
-  )
-}
+  );
+};
 
-export default TransactionForm
+export default TransactionForm;

@@ -1162,6 +1162,7 @@ textarea {
   gap: 12px;
   font-size: 1.25rem;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .login-v2-copy {

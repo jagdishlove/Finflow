@@ -1,36 +1,37 @@
-import { useEffect, useState } from 'react'
-import { getExpensesByCategory } from '../services/api'
+import { useEffect, useState } from "react";
+import { getExpensesByCategory } from "../services/api";
 
 const ExpensesByCategory = () => {
-  const [expenses, setExpenses] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        setLoading(true)
-        const data = await getExpensesByCategory()
-        setExpenses(data)
-        setError(null)
+        setLoading(true);
+        const data = await getExpensesByCategory();
+        setExpenses(data);
+        setError(null);
       } catch {
-        setError('Failed to load expenses by category.')
+        setError("Failed to load expenses by category.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchExpenses()
-  }, [])
+    fetchExpenses();
+  }, []);
 
   const formatCurrency = (value) =>
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value)
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
 
-  if (loading) return <div className="card">Loading expenses by category...</div>
-  if (error) return <div className="card error-text">{error}</div>
+  if (loading)
+    return <div className="card">Loading expenses by category...</div>;
+  if (error) return <div className="card error-text">{error}</div>;
 
   return (
     <div className="card">
@@ -42,13 +43,15 @@ const ExpensesByCategory = () => {
           {expenses.map((item) => (
             <li key={item.category_name} className="expense-item">
               <span>{item.category_name}</span>
-              <span className="transaction-amount">{formatCurrency(item.total_amount)}</span>
+              <span className="transaction-amount">
+                {formatCurrency(item.total_expenses)}
+              </span>
             </li>
           ))}
         </ul>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ExpensesByCategory
+export default ExpensesByCategory;

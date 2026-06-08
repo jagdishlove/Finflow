@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createCategory } from "../services/api";
+import { supabase } from "../supabase/client";
 
 const CategoryForm = ({ onCreated }) => {
   const [form, setForm] = useState({
@@ -24,16 +25,22 @@ const CategoryForm = ({ onCreated }) => {
     setMessage("");
 
     try {
-      await createCategory(form);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      await createCategory({ ...form, user_id: user.id });
       setMessage("Category created successfully.");
       setForm({
         name: "",
         type: "expense",
-        user_id: null,
       });
       if (onCreated) onCreated();
     } catch {
-      setError("Failed to create category.");
+      setError(
+        "Failed to create category. Please make sure you are logged in.",
+      );
     } finally {
       setLoading(false);
     }

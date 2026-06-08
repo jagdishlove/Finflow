@@ -55,7 +55,6 @@ export const createCategory = async (payload) => {
     .from("categories")
     .insert(payload)
     .select();
-
   if (error) {
     console.error("Error creating category:", error);
     return null;

@@ -6,8 +6,6 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const { signUp, session } = useAuth();
 
-  console.log("Current session:", session); // Debugging line to check session state
-
   const [form, setForm] = useState({
     username: "",
     password: "",

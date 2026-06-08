@@ -35,7 +35,7 @@ const LoginPage = () => {
   return (
     <div className="login-v2-shell">
       <div className="login-v2-left">
-        <div className="login-v2-brand">
+        <div onClick={() => navigate("/")} className="login-v2-brand">
           <div className="public-brand-mark-v3">F</div>
           <span>FinFlow</span>
         </div>
