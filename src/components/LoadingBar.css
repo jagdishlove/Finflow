@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: #29d;
+    background-color: rgb(255, 132, 0);
     animation: loading-animation 1.5s infinite;
     z-index: 9999;
 }
@@ -14,8 +14,20 @@
         width: 0%;
     }
 
+    20% {
+        width: 50%;
+    }
+
+    40% {
+        width: 75%;
+    }
+
     50% {
         width: 100%;
+    }
+
+    70% {
+        width: 75%;
     }
 
     100% {
