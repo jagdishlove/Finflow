@@ -11,6 +11,7 @@ const LoginPage = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [Loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -22,8 +23,10 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     const result = await login(form.username, form.password);
+    setLoading(false);
 
     if (result.success) {
       navigate("/app");
@@ -74,7 +77,6 @@ const LoginPage = () => {
                 placeholder="Enter your email"
               />
             </label>
-
             <label className="form-field-v2">
               <span>Password</span>
               <input
@@ -88,7 +90,7 @@ const LoginPage = () => {
             </label>
 
             <button className="cta-button-v3 login-button-v2" type="submit">
-              Sign in
+              {Loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
