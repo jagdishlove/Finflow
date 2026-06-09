@@ -60,7 +60,7 @@ const LoginPage = () => {
       <div className="login-v2-right">
         <div className="login-v2-card">
           <h2>Sign in</h2>
-          <p>Use the demo credentials below to enter the product.</p>
+          <p>Sign in to your account.</p>
 
           <form className="auth-form-v2" onSubmit={handleSubmit}>
             <label className="form-field-v2">
@@ -71,7 +71,7 @@ const LoginPage = () => {
                 value={form.username}
                 onChange={handleChange}
                 required
-                placeholder="Enter username or Email"
+                placeholder="Enter your email"
               />
             </label>
 
@@ -83,12 +83,12 @@ const LoginPage = () => {
                 value={form.password}
                 onChange={handleChange}
                 required
-                placeholder="Enter password"
+                placeholder="Enter your password"
               />
             </label>
 
             <button className="cta-button-v3 login-button-v2" type="submit">
-              Enter demo
+              Sign in
             </button>
           </form>
 
@@ -96,13 +96,27 @@ const LoginPage = () => {
 
           <div className="demo-box-v2">
             <p>
+              {" "}
               <strong>Demo credentials</strong>
             </p>
             <p>
-              User: <code>user</code>
+              User: <code>xeyet38465@brixozu.com</code>
             </p>
             <p>
-              Password: <code>user</code>
+              Password: <code>Qwerty12345*</code>
+            </p>
+          </div>
+
+          <div className="demo-box-v2">
+            <p>
+              {" "}
+              Don't have an account?{" "}
+              <button
+                className="cta-button-v3"
+                onClick={() => navigate("/signup")}
+              >
+                Sign up
+              </button>
             </p>
           </div>
 

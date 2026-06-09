@@ -53,15 +53,15 @@ const BudgetStatus = () => {
       ) : (
         <ul className="budget-list">
           {budgets?.map((item) => {
-            const state = getBudgetState(item.percentage_used);
-            const barWidth = `${Math.min(item.percentage_used, 100)}%`;
+            const state = getBudgetState(item.remaining);
+            const barWidth = `${Math.min(item.remaining, 100)}%`;
 
             return (
               <li key={item.category_id} className="budget-item">
                 <div className="budget-top">
                   <strong>{item.category_name}</strong>
                   <span className={`budget-pill ${state}`}>
-                    {getBudgetLabel(item.percentage_used)}
+                    {getBudgetLabel(item.remaining)}
                   </span>
                 </div>
 
@@ -79,9 +79,9 @@ const BudgetStatus = () => {
 
                 <div className="budget-meta">
                   <span>Remaining: {formatCurrency(item.remaining)}</span>
-                  <span className={`budget-text ${state}`}>
+                  {/* <span className={`budget-text ${state}`}>
                     {item?.remaining.toFixed(2)}%
-                  </span>
+                  </span> */}
                 </div>
               </li>
             );

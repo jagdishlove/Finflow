@@ -1,47 +1,47 @@
-import { useEffect, useState } from 'react'
-import { getTransactions } from '../services/api'
+import { useEffect, useState } from "react";
+import { getTransactions } from "../services/api";
 
 const RecentTransactions = ({ refreshKey = 0 }) => {
-  const [transactions, setTransactions] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        setLoading(true)
-        const data = await getTransactions()
-        setTransactions(data)
-        setError(null)
+        setLoading(true);
+        const data = await getTransactions();
+        setTransactions(data);
+        setError(null);
       } catch {
-        setError('Failed to load transactions.')
+        setError("Failed to load transactions.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchTransactions()
-  }, [refreshKey])
+    fetchTransactions();
+  }, [refreshKey]);
 
   const formatCurrency = (value) =>
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(value)
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
 
   const formatDate = (dateObj) => {
     if (dateObj instanceof Date && !isNaN(dateObj)) {
-      return dateObj.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
+      return dateObj.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
     }
-    return 'Invalid Date'
-  }
+    return "Invalid Date";
+  };
 
-  if (loading) return <div className="card">Loading transactions...</div>
-  if (error) return <div className="card error-text">{error}</div>
+  if (loading) return <div className="card">Loading transactions...</div>;
+  if (error) return <div className="card error-text">{error}</div>;
 
   return (
     <div className="card">
@@ -53,18 +53,23 @@ const RecentTransactions = ({ refreshKey = 0 }) => {
           {transactions.slice(0, 8).map((tx) => (
             <li key={tx.id} className="transaction-item">
               <div>
-                <strong>{tx.description || 'No Description'}</strong>
+                <strong>{tx.description || "No Description"}</strong>
                 <div className="muted-text">
-                  {tx.category_name ? `${tx.category_name} · ` : ''}{formatDate(tx.transaction_date)}
+                  {tx.category_name ? `${tx.category_name} · ` : ""}
+                  {formatDate(
+                    tx.transaction_date ? new Date(tx.transaction_date) : null,
+                  )}
                 </div>
               </div>
-              <span className="transaction-amount">{formatCurrency(tx.amount)}</span>
+              <span className="transaction-amount">
+                {formatCurrency(tx.amount)}
+              </span>
             </li>
           ))}
         </ul>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default RecentTransactions
+export default RecentTransactions;

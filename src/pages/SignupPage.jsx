@@ -19,11 +19,11 @@ const SignupPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    const result = signUp(form.username, form.password);
+    const result = await signUp(form.username, form.password);
 
     if (result.success) {
       navigate("/app");
@@ -35,7 +35,7 @@ const SignupPage = () => {
   return (
     <div className="login-v2-shell">
       <div className="login-v2-left">
-        <div className="login-v2-brand">
+        <div className="login-v2-brand" onClick={() => navigate("/")}>
           <div className="public-brand-mark-v3">F</div>
           <span>FinFlow</span>
         </div>
@@ -70,6 +70,7 @@ const SignupPage = () => {
                 name="username"
                 value={form.username}
                 onChange={handleChange}
+                placeholder="Enter your email"
                 required
               />
             </label>
@@ -81,6 +82,7 @@ const SignupPage = () => {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
+                placeholder="Enter your password"
                 required
               />
             </label>
@@ -97,10 +99,22 @@ const SignupPage = () => {
               <strong>Demo credentials</strong>
             </p>
             <p>
-              User: <code>user</code>
+              User: <code>xeyet38465@brixozu.com</code>
             </p>
             <p>
-              Password: <code>user</code>
+              Password: <code>Qwerty12345*</code>
+            </p>
+          </div>
+
+          <div className="demo-box-v2">
+            <p>
+              Already have an account?{" "}
+              <button
+                className="cta-button-v3"
+                onClick={() => navigate("/login")}
+              >
+                Sign in
+              </button>
             </p>
           </div>
 
